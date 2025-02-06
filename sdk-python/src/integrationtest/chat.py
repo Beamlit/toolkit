@@ -6,12 +6,13 @@ from beamlit.functions import function
 from langgraph.graph.graph import CompiledGraph
 
 settings = init()
-chat = get_chat_model("gpt-4o-mini") # all good
+# chat = get_chat_model("gpt-4o-mini") # all good
 # chat = get_chat_model("ministral-3b-2410") # all good
 # chat = get_chat_model("cohere-command-r-plus") # all good, astream does not work
 # chat = get_chat_model("claude-3-5-sonnet") # all good
 # chat = get_chat_model("deepseek-chat") # all good
 # chat = get_chat_model("xai-grok-beta") # all good
+chat = get_chat_model("deepseek-r1-distill-qwen-32b")
 
 print(chat)
 

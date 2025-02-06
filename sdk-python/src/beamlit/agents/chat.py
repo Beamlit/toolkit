@@ -119,6 +119,22 @@ def get_azure_marketplace_chat_model(**kwargs):
         **kwargs
     )  # It seems to use a compatible endpoint, so we can use the classic OpenAI interface
 
+def get_hf_public_endpoint_chat_model(**kwargs):
+    from langchain_huggingface import ChatHuggingFace  # type: ignore
+    from langchain_huggingface import HuggingFaceEndpoint
+
+    llm = HuggingFaceEndpoint(
+        endpoint_url=kwargs["base_url"] + "/chat/completions",
+        task="text-generation",
+        max_new_tokens=512,
+        do_sample=False,
+        repetition_penalty=1.03,
+        server_kwargs={
+            "api_key": kwargs["api_key"],
+        }
+    )
+    return ChatHuggingFace(llm=llm, model_id=kwargs["model"])
+
 def get_chat_model(name: str, agent_model: Union[Model, None] = None) -> BaseChatModel:
     """
     Gets a chat model instance for the specified model name.
@@ -220,6 +236,12 @@ def get_chat_model_full(name: str, agent_model: Union[Model, None] = None) -> Tu
             "func": get_azure_marketplace_chat_model,
             "kwargs": {},
         },
+        "hf_public_endpoint": {
+            "func": get_hf_public_endpoint_chat_model,
+            "kwargs": {
+                "api_key": jwt,
+            }
+        }
     }
 
     provider = (
