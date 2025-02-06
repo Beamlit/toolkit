@@ -55,7 +55,12 @@ dependencies = [
 [dependency-groups]
 dev = [
     "pdoc3>=0.11.5",
+    "pytest>=8.3.4",
+    "pytest-cov>=6.0.0",
+    "pytest-mock>=3.14.0",
     "ruff>=0.8.2",
+    "langchain-openai>=0.3.2",
+    "anyio>=4.8.0",
 ]
 
 [project.scripts]
@@ -71,3 +76,12 @@ line-length = 100
 [tool.ruff.lint]
 select = ["F", "I", "UP"]
 ignore = ["UP006", "UP007", "UP035"]
+
+[tool.pytest]
+testpaths = ["tests"]
+python_files = "test_*.py"
+pythonpath = [
+    ".",
+    "src"
+]
+addopts = "-v --cov=src/beamlit --cov-report=term-missing --log-cli=true"
